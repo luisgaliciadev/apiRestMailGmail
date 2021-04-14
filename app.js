@@ -2,16 +2,10 @@
 
 // Requires
 var express = require('express');
-var bodyParser = require('body-parser');
-var http = require('http');
 var app = express();
 
-// Body Parser
-// parse application/x-www-form-urlencoded
-app.use(bodyParser.json({ limit: '50mb' }));
-app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
-// Obtener puerto
+// Get Port
 const port = process.env.PORT || 3000;
 
 // CORS
@@ -34,5 +28,4 @@ app.listen(port, () => {
 
 // Routes
 app.use('/api/mail', mail);
-
 app.use('/api', appRoutes);

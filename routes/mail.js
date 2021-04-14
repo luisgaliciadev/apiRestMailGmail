@@ -1,32 +1,19 @@
 'use strict'
 
 var express = require('express');
-var bodyParser = require('body-parser');
 var app = express();
-app.use(bodyParser.json({ limit: '50mb' }));
-app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 var nodemailer = require('nodemailer');
-var SEED = require('../config/config').SEED;
 
 // Enviar Mail
 app.post('/sendMail', async (req, res, next ) => {       
-    var body = req.body;
-    var name = body.name;
-    var mail = body.mail;
-    var subject = body.subject;   
-    var message = body.message;  
-    var KEY_MAIL = body.KEY_MAIL;
-
-    if (KEY_MAIL !== SEED) {
-        return res.status(400).send({
-            ok: false,
-            message: 'Error de autenticación.'
-        });
-    }
-
+    var body = req.body; 
+    var name = '';
+    var mail = '';
+    var subject = '';   
+    var message = '';  
     var contentHtml = `           
     <div>
-        <h2>Mensaje desde Portafolio</h2>   
+        <h2>Message</h2>   
         <label><b>Nombre: </b> ${name}</label>  
         <br>
         <label><b>Correo: </b> ${mail}</label> 
@@ -43,8 +30,8 @@ app.post('/sendMail', async (req, res, next ) => {
         port: 465,
         secure: true,
         auth: {
-            user: 'yourmail@gmail.com',
-            pass: 'yourPassword'
+            user: 'your_mail@gmail.com',
+            pass: 'your_password'
         },
         tls: {
             // do not fail on invalid certs
@@ -53,8 +40,8 @@ app.post('/sendMail', async (req, res, next ) => {
     });            
     var infoMail = '';           
     var infoMail = await transporter.sendMail({
-        from: `Your name <yourmail@gmail.com>`,
-        to: 'mail@mail.com',
+        from: `Your name <your_mail@gmail.com>`,
+        to: 'the_mail@mail.com',
         subject: subject,
         html: contentHtml
     });
